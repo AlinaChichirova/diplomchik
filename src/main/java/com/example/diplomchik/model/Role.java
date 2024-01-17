@@ -1,2 +1,5 @@
-package com.example.diplomchik.model;public class Role {
+package com.example.diplomchik.model;
+
+public enum Role {
+    USER;
 }

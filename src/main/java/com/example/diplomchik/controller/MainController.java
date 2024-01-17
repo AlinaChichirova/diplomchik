@@ -1,4 +1,4 @@
-package com.example.diplomchik;
+package com.example.diplomchik.controller;
 
 
 import com.example.diplomchik.model.Person;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Map;
 
 @Controller
-public class GreetingController {
+public class MainController {
     @Autowired
     private PersonRepository personRepository;
 
     @GetMapping("/")
-    public String greeting(@RequestParam Map<String, Object> model){
-        return "greeting";
+    public String hello(@RequestParam Map<String, Object> model){
+        return "main";
     }
     @GetMapping("/main")
     public String main (Map<String, Object> model){
@@ -28,23 +28,14 @@ public class GreetingController {
     }
 
     @PostMapping("main")
-    public String add(@RequestParam String te, @RequestParam String tag, Map<String, Object> model){
-        Person person=new Person(te,tag);
+    public String add(@RequestParam String name, @RequestParam String middleName,@RequestParam String lastName,
+                      @RequestParam String birthday, @RequestParam String gender, @RequestParam String phone,
+                      @RequestParam String email, @RequestParam String sity,Map<String, Object> model){
+        Person person=new Person(name, middleName,lastName,birthday,gender,phone,email,sity);
         personRepository.save(person);
         Iterable<Person>persons=personRepository.findAll();
         model.put("persons",persons);
         return "main";
     }
 
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model){
-        Iterable<Person> persons;
-        if (filter!=null && filter.isEmpty()){
-        persons=personRepository.findByTag(filter);
-        } else {
-           persons=personRepository.findAll();
-        }
-        model.put("persons",persons);
-        return "main";
-    }
 }
